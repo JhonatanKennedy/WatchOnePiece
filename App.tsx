@@ -1,8 +1,14 @@
-import { Routes } from './src/Routes';
+import { StatusBar } from 'expo-status-bar';
 import { registerRootComponent } from 'expo';
+import { Routes } from '@routes/index';
 
 export default function App(): JSX.Element {
-  return <Routes />;
+  return (
+    <>
+      <StatusBar style="auto" />
+      <Routes />
+    </>
+  );
 }
 
 registerRootComponent(App);
