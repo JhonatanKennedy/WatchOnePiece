@@ -1,9 +1,5 @@
-import { Text, View } from 'react-native';
+import { TemplateProgress } from './template';
 
 export const Progress = (): JSX.Element => {
-  return (
-    <View>
-      <Text>Status</Text>
-    </View>
-  );
+  return <TemplateProgress />;
 };

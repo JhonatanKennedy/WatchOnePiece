@@ -1,9 +1,5 @@
-import { Text, View } from 'react-native';
+import { TemplateAbout } from './template';
 
 export const About = (): JSX.Element => {
-  return (
-    <View>
-      <Text>about</Text>
-    </View>
-  );
+  return <TemplateAbout />;
 };

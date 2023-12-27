@@ -4,7 +4,8 @@ import { Home } from '@screens/Home';
 import { About } from '@screens/About';
 import { Progress } from '@screens/Progress';
 import { colors } from '@styles/paletteColors';
-import { Arc } from '@screens/Arc';
+import { Arcs } from '@screens/Arcs';
+import { Settings } from '@screens/Settings';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,10 @@ export const BottomNavigation = (): JSX.Element => {
             name = focused ? 'compass' : 'compass-outline';
           }
 
+          if (route.name === 'Ajustes') {
+            name = focused ? 'settings' : 'settings-outline';
+          }
+
           return <Ionicons name={name} {...rest} />;
         },
         tabBarStyle: {
@@ -52,7 +57,8 @@ export const BottomNavigation = (): JSX.Element => {
     >
       <Tab.Screen name="Início" component={Home} />
       <Tab.Screen name="Progresso" component={Progress} />
-      <Tab.Screen name="Arcos" component={Arc} />
+      <Tab.Screen name="Arcos" component={Arcs} />
+      <Tab.Screen name="Ajustes" component={Settings} />
       <Tab.Screen name="Sobre" component={About} />
     </Tab.Navigator>
   );

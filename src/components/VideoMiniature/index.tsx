@@ -1,10 +1,17 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { images } from '@resources/arcImages';
+import {
+  Image,
+  type ImageSourcePropType,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { colors } from '@styles/paletteColors';
 
 export type IVideoMiniatureProps = {
   onPress: () => void;
   title: string;
+  image: ImageSourcePropType;
 };
 
 export const VideoMiniature = (props: IVideoMiniatureProps) => {
@@ -12,7 +19,7 @@ export const VideoMiniature = (props: IVideoMiniatureProps) => {
     <View style={style.container}>
       <TouchableOpacity onPress={props.onPress}>
         <View style={style.imgContainer}>
-          <Image source={images.arc1} style={style.img} />
+          <Image source={props.image} style={style.img} />
         </View>
         <Text numberOfLines={1} style={style.title}>
           {props.title}
@@ -28,10 +35,6 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     width: 130,
     height: 100,
-    borderColor: 'green',
-    borderWidth: 2,
-    // border: '1px solid green',
-    // resizeMode: 'cover',
   },
   imgContainer: {
     width: '100%',

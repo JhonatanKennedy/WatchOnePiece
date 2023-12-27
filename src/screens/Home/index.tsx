@@ -19,3 +19,4 @@ export const Home = () => {
 // tentar salvar onde o video parou
 // pagina para o episodio vai ter próximo e anterior
 // próximo e anterior de acordo com filers ou nao
+// fazer funções para separar os arcos
