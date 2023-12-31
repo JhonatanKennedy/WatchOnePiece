@@ -1,6 +1,6 @@
 import { Textfield } from '@components/Textfield';
 import { VideoMiniature } from '@components/VideoMiniature';
-import { type IArcType } from '@resources/arcImages';
+import { type IArcType } from '@resources/arcInfo';
 import { texts } from '@resources/texts';
 import { colors } from '@styles/paletteColors';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';

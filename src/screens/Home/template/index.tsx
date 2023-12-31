@@ -6,7 +6,7 @@ import { Textfield } from '@components/Textfield';
 import { colors } from '@styles/paletteColors';
 import { VideoMiniature } from '@components/VideoMiniature';
 import { texts } from '@resources/texts';
-import { arcs } from '@resources/arcImages';
+import { arcs } from '@resources/arcInfo';
 
 const { home } = texts;
 

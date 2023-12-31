@@ -20,3 +20,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
 });
+
+//possiveis opções
+//ver todos episodios
+//ver apenas episódios canonicos
+//apos passar episódio permitir o autoplay automatico
+//volume do video padrão

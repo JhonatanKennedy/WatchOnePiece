@@ -1,10 +1,14 @@
-import { VideoPlayer } from '@components/VideoPlayer';
-import { View } from 'react-native';
+import { type ITemplateEpisodeProps, TemplateEpisode } from './template';
 
 export const Episode = () => {
-  return (
-    <View>
-      <VideoPlayer url="https://lightspeedst.net/s2/mp4/one-piece/sd/820.mp4" volume={0.5} />
-    </View>
-  );
+  const props: ITemplateEpisodeProps = {
+    title: '902 - O Yokozuna aparece. O-Kiku na mira do imbatível Urashima',
+    videoInfo: {
+      url: 'https://hd2.animesdigital.org/animes/o/one-piece/902.mp4',
+      volume: 0.5,
+    },
+    onPreviously: () => console.log('previosly'),
+    onNext: () => console.log('next'),
+  };
+  return <TemplateEpisode {...props} />;
 };

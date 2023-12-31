@@ -1,8 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { type ITemplateHomeProps, TemplateHome } from './template';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import EpisodesJSON from '../../resources/episodes.json';
 
 export const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
+
+  const handleAddEpisodesList = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('episodes');
+
+      if (!storedData) {
+        await AsyncStorage.setItem('episodes', JSON.stringify(EpisodesJSON));
+      }
+    } catch (err) {
+      console.error('Erro ao carregar os dados:', err);
+    }
+  };
+
+  useEffect(() => {
+    void handleAddEpisodesList();
+  }, []);
 
   const propsTemplate: ITemplateHomeProps = {
     searchValue: searchText,

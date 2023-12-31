@@ -6,6 +6,8 @@ import { Progress } from '@screens/Progress';
 import { colors } from '@styles/paletteColors';
 import { Arcs } from '@screens/Arcs';
 import { Settings } from '@screens/Settings';
+import { Episode } from '@screens/Episode';
+import { GoBackButton } from '@components/GoBackButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,13 +47,10 @@ export const BottomNavigation = (): JSX.Element => {
         tabBarActiveTintColor: colors.secondary,
         tabBarInactiveTintColor: colors.text.primary,
         headerTintColor: colors.text.primary,
+        headerShadowVisible: false,
         headerStyle: {
           backgroundColor: colors.primary,
           borderColor: colors.primary,
-          borderBottomColor: 'transparent',
-          shadowColor: 'transparent',
-          borderBottomWidth: 0,
-          elevation: 0,
         },
       })}
     >
@@ -60,6 +59,15 @@ export const BottomNavigation = (): JSX.Element => {
       <Tab.Screen name="Arcos" component={Arcs} />
       <Tab.Screen name="Ajustes" component={Settings} />
       <Tab.Screen name="Sobre" component={About} />
+      <Tab.Screen
+        name="Episódio"
+        component={Episode}
+        options={{
+          headerTitle: '',
+          headerLeft: () => <GoBackButton onPress={() => null} />,
+          tabBarButton: () => null,
+        }}
+      />
     </Tab.Navigator>
   );
 };
