@@ -1,30 +1,34 @@
 import { useEffect, useState } from 'react';
 import { type ITemplateHomeProps, TemplateHome } from './template';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import EpisodesJSON from '../../resources/episodes.json';
+import { type IEpisodeUnwatched } from '@domain/episodes/type';
+import { MainEpisodes } from '@domain/episodes/main';
+import { useNavigation } from '@react-navigation/native';
 
 export const Home = () => {
+  const navigation = useNavigation();
+
   const [searchText, setSearchText] = useState<string>('');
-
-  const handleAddEpisodesList = async () => {
-    try {
-      const storedData = await AsyncStorage.getItem('episodes');
-
-      if (!storedData) {
-        await AsyncStorage.setItem('episodes', JSON.stringify(EpisodesJSON));
-      }
-    } catch (err) {
-      console.error('Erro ao carregar os dados:', err);
-    }
-  };
+  const [mainEpisodes] = useState(new MainEpisodes());
+  const [canonicalEpisodes, setCanonicalEpisodes] = useState<IEpisodeUnwatched[]>([]);
 
   useEffect(() => {
-    void handleAddEpisodesList();
+    void mainEpisodes.loadingDataOnPhone();
   }, []);
+
+  useEffect(() => {
+    setCanonicalEpisodes(mainEpisodes.listAllCanonical());
+  }, []);
+
+  const goToEpisode = (episode: IEpisodeUnwatched) => {
+    // resolver esse erro depois
+    navigation.navigate('Episode', { ...episode });
+  };
 
   const propsTemplate: ITemplateHomeProps = {
     searchValue: searchText,
     onChange: (value) => setSearchText(value),
+    allEpisodes: canonicalEpisodes,
+    onChooseEpisode: goToEpisode,
   };
 
   return <TemplateHome {...propsTemplate} />;

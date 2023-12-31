@@ -1,4 +1,4 @@
-import { arcs } from '@resources/arcInfo';
+import { arcs } from '@domain/episodes/repository/arcInfo';
 import { type ITemplateArcsProps, TemplateArcs } from './template';
 
 export const Arcs = () => {

@@ -1,10 +1,14 @@
 import { type ITemplateEpisodeProps, TemplateEpisode } from './template';
+import { useRoute } from '@react-navigation/native';
 
 export const Episode = () => {
+  // resolver esse erro nos params depois
+  const { params } = useRoute();
+
   const props: ITemplateEpisodeProps = {
-    title: '902 - O Yokozuna aparece. O-Kiku na mira do imbatível Urashima',
+    title: params.title,
     videoInfo: {
-      url: 'https://hd2.animesdigital.org/animes/o/one-piece/902.mp4',
+      url: params.uri,
       volume: 0.5,
     },
     onPreviously: () => console.log('previosly'),

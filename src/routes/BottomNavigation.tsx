@@ -8,10 +8,12 @@ import { Arcs } from '@screens/Arcs';
 import { Settings } from '@screens/Settings';
 import { Episode } from '@screens/Episode';
 import { GoBackButton } from '@components/GoBackButton';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigation = (): JSX.Element => {
+  const navigator = useNavigation();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -60,11 +62,11 @@ export const BottomNavigation = (): JSX.Element => {
       <Tab.Screen name="Ajustes" component={Settings} />
       <Tab.Screen name="Sobre" component={About} />
       <Tab.Screen
-        name="Episódio"
+        name="Episode"
         component={Episode}
         options={{
           headerTitle: '',
-          headerLeft: () => <GoBackButton onPress={() => null} />,
+          headerLeft: () => <GoBackButton onPress={() => navigator.goBack()} />,
           tabBarButton: () => null,
         }}
       />

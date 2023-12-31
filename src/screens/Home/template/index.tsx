@@ -6,13 +6,16 @@ import { Textfield } from '@components/Textfield';
 import { colors } from '@styles/paletteColors';
 import { VideoMiniature } from '@components/VideoMiniature';
 import { texts } from '@resources/texts';
-import { arcs } from '@resources/arcInfo';
-
+import { arcs } from '@domain/episodes/repository/arcInfo';
+import { type IEpisodeUnwatched } from '@domain/episodes/type';
+// remover depoiis
 const { home } = texts;
 
 export type ITemplateHomeProps = {
   searchValue: string;
   onChange: (value: string) => void;
+  allEpisodes: IEpisodeUnwatched[];
+  onChooseEpisode: (episode: IEpisodeUnwatched) => void;
 };
 
 export const TemplateHome = (props: ITemplateHomeProps) => {
@@ -65,15 +68,16 @@ export const TemplateHome = (props: ITemplateHomeProps) => {
 
       <ScrollView>
         <View style={styles.episodesContainer}>
-          {new Array(20).fill(1).map((_, index) => (
-            <View style={styles.videoMiniatureContainer} key={index}>
+          {/* mudar isso depois */}
+          {props.allEpisodes?.length !== 0 &&
+            props.allEpisodes.map((episode) => (
               <VideoMiniature
-                image={arcs[0].image}
-                onPress={() => console.log('clickei')}
-                title={`${index + 1} - Eu sou Luffy! O homem que será o Rei dos Piratas!`}
+                key={episode.number + 'miniature'}
+                image={episode.image}
+                title={`${episode.number} - ${episode.title}`}
+                onPress={() => props.onChooseEpisode(episode)}
               />
-            </View>
-          ))}
+            ))}
         </View>
       </ScrollView>
     </SafeAreaView>
