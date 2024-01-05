@@ -1,12 +1,17 @@
+import { type IEpisodeUnwatched } from '@domain/episodes/type';
 import { type ITemplateEpisodeProps, TemplateEpisode } from './template';
-import { useRoute } from '@react-navigation/native';
+import { type RouteProp, useRoute } from '@react-navigation/native';
+
+type ParamList = {
+  Detail: IEpisodeUnwatched;
+};
 
 export const Episode = () => {
-  // resolver esse erro nos params depois
-  const { params } = useRoute();
+  const { params } = useRoute<RouteProp<ParamList, 'Detail'>>();
 
   const props: ITemplateEpisodeProps = {
     title: params.title,
+    number: params.number,
     videoInfo: {
       url: params.uri,
       volume: 0.5,

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { type ITemplateHomeProps, TemplateHome } from './template';
 import { type IEpisodeUnwatched } from '@domain/episodes/type';
 import { MainEpisodes } from '@domain/episodes/main';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
 export const Home = () => {
   const navigation = useNavigation();
@@ -20,8 +20,7 @@ export const Home = () => {
   }, []);
 
   const goToEpisode = (episode: IEpisodeUnwatched) => {
-    // resolver esse erro depois
-    navigation.navigate('Episode', { ...episode });
+    navigation.dispatch(CommonActions.navigate({ name: 'Episode', params: { ...episode } }));
   };
 
   const propsTemplate: ITemplateHomeProps = {
