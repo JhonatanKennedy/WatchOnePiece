@@ -6,7 +6,7 @@ export type IEpisodeType = {
   uri: string;
 };
 
-export type IEpisodeUnwatched = IEpisodeType & {
+export type IEpisodeCompleteType = IEpisodeType & {
   image: ImageSourcePropType;
 };
 

@@ -3,24 +3,34 @@ import { type AsyncStorageStatic } from '@react-native-async-storage/async-stora
 export class Repository {
   constructor(private readonly AsyncStorage: AsyncStorageStatic) {}
 
-  async loadingDataOnApp() {
+  async loadingDataOnApp(): Promise<number[] | null> {
     try {
-      const storedData = await this.AsyncStorage.getItem('episodes');
+      const episodes = await this.AsyncStorage.getItem('episodes');
 
-      if (!storedData) {
+      if (!episodes) {
         await this.AsyncStorage.setItem('episodes', JSON.stringify([]));
+        return [];
       }
+
+      return JSON.parse(episodes);
     } catch (err) {
       console.error('Erro ao carregar os dados:', err);
+
+      return null;
     }
   }
 
-  async getAllWatchedEpisodes(): Promise<number[]> {
-    const storedData = await this.AsyncStorage.getItem('episodes');
-    if (storedData) {
+  async getAllWatchedEpisodes(): Promise<number[] | null> {
+    try {
+      const storedData = await this.AsyncStorage.getItem('episodes');
+      if (!storedData) {
+        return [];
+      }
       return JSON.parse(storedData);
+    } catch (err) {
+      console.error('Erro ao carregar os dados:', err);
+      return null;
     }
-    return [];
   }
 
   async resetAllEpisodes(): Promise<void> {

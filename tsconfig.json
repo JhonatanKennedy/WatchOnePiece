@@ -11,7 +11,8 @@
       "@styles/*": ["./src/styles/*"],
       "@assets/*": ["./src/assets/*"],
       "@resources/*": ["./src/resources/*"],
-      "@domain/*": ["./src/domain/*"]
+      "@domain/*": ["./src/domain/*"],
+      "@context/*": ["./src/context/*"]
     }
   }
 }

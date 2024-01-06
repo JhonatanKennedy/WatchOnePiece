@@ -1,29 +1,33 @@
 import { TextInput } from 'react-native-paper';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Textfield } from '@components/Textfield';
 import { colors } from '@styles/paletteColors';
 import { VideoMiniature } from '@components/VideoMiniature';
 import { texts } from '@resources/texts';
-import { arcs } from '@domain/episodes/repository/arcInfo';
-import { type IEpisodeUnwatched } from '@domain/episodes/type';
-// remover depoiis
+import { type IEpisodeCompleteType } from '@domain/episodes/type';
+import { useState } from 'react';
 const { home } = texts;
 
 export type ITemplateHomeProps = {
-  searchValue: string;
-  onChange: (value: string) => void;
-  allEpisodes: IEpisodeUnwatched[];
-  onChooseEpisode: (episode: IEpisodeUnwatched) => void;
+  onSearch: (value: string) => void;
+  allEpisodes: IEpisodeCompleteType[];
+  nextEpisodes: IEpisodeCompleteType[];
+  onChooseEpisode: (episode: IEpisodeCompleteType) => void;
 };
 
 export const TemplateHome = (props: ITemplateHomeProps) => {
+  const [searchValue, setSearchValue] = useState<string>('');
+
   return (
     <SafeAreaView style={styles.container}>
       <Textfield
-        value={props.searchValue}
-        onChangeText={(value) => props.onChange(value)}
+        value={searchValue}
+        onChangeText={(value) => {
+          setSearchValue(value);
+          props.onSearch(value);
+        }}
         placeholder={home.searchPlaceholder}
         right={
           <TextInput.Icon
@@ -34,52 +38,38 @@ export const TemplateHome = (props: ITemplateHomeProps) => {
 
       <Text style={styles.lastWatchTitle}>{home.lastWatchedLabel}</Text>
 
-      <ScrollView horizontal style={styles.scrollViewContainer}>
-        <View style={styles.lastWatchedContainer}>
-          <VideoMiniature
-            image={arcs[0].image}
-            onPress={() => console.log('clickei')}
-            title="1 - Eu sou Luffy! O homem que será o Rei dos Piratas!"
-          />
-          <VideoMiniature
-            image={arcs[0].image}
-            onPress={() => console.log('clickei')}
-            title="1 - Eu sou Luffy! O homem que será o Rei dos Piratas!"
-          />
-          <VideoMiniature
-            image={arcs[0].image}
-            onPress={() => console.log('clickei')}
-            title="1 - Eu sou Luffy! O homem que será o Rei dos Piratas!"
-          />
-          <VideoMiniature
-            image={arcs[0].image}
-            onPress={() => console.log('clickei')}
-            title="1 - Eu sou Luffy! O homem que será o Rei dos Piratas!"
-          />
-          <VideoMiniature
-            image={arcs[0].image}
-            onPress={() => console.log('clickei')}
-            title="1 - Eu sou Luffy! O homem que será o Rei dos Piratas!"
-          />
-        </View>
-      </ScrollView>
-
-      <Text style={styles.episodesTitle}>{home.episodesLabel}</Text>
-
-      <ScrollView>
-        <View style={styles.episodesContainer}>
-          {/* mudar isso depois */}
-          {props.allEpisodes?.length !== 0 &&
-            props.allEpisodes.map((episode) => (
+      <View>
+        <FlatList
+          data={props.nextEpisodes}
+          keyExtractor={(episode) => `episode top - ${episode.number}`}
+          renderItem={({ item }) => (
+            <View style={{ marginHorizontal: 4 }}>
               <VideoMiniature
-                key={episode.number + 'miniature'}
-                image={episode.image}
-                title={`${episode.number} - ${episode.title}`}
-                onPress={() => props.onChooseEpisode(episode)}
+                title={item.title}
+                image={item.image}
+                onPress={() => props.onChooseEpisode(item)}
               />
-            ))}
-        </View>
-      </ScrollView>
+            </View>
+          )}
+          horizontal={true}
+        />
+      </View>
+      <Text style={styles.episodesTitle}>{home.episodesLabel}</Text>
+      <FlatList
+        data={props.allEpisodes}
+        keyExtractor={(episode) => `episode - ${episode.number}`}
+        renderItem={({ item }) => (
+          <View style={{ margin: 4 }}>
+            <VideoMiniature
+              title={item.title}
+              image={item.image}
+              onPress={() => props.onChooseEpisode(item)}
+            />
+          </View>
+        )}
+        numColumns={3}
+        contentContainerStyle={{ marginHorizontal: 2 }}
+      />
     </SafeAreaView>
   );
 };
@@ -95,25 +85,8 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontSize: 16,
   },
-  scrollViewContainer: {
-    maxHeight: 100,
-  },
-  lastWatchedContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 16,
-  },
   episodesTitle: {
     color: colors.text.primary,
     fontSize: 16,
-  },
-  episodesContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  videoMiniatureContainer: {
-    marginBottom: 8,
   },
 });

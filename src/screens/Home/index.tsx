@@ -1,32 +1,20 @@
-import { useEffect, useState } from 'react';
 import { type ITemplateHomeProps, TemplateHome } from './template';
-import { type IEpisodeUnwatched } from '@domain/episodes/type';
-import { MainEpisodes } from '@domain/episodes/main';
+import { type IEpisodeCompleteType } from '@domain/episodes/type';
 import { CommonActions, useNavigation } from '@react-navigation/native';
+import { useGlobalContext } from '@context/global';
 
 export const Home = () => {
   const navigation = useNavigation();
+  const { episodes, searchEpisode, nextEpisodes } = useGlobalContext();
 
-  const [searchText, setSearchText] = useState<string>('');
-  const [mainEpisodes] = useState(new MainEpisodes());
-  const [canonicalEpisodes, setCanonicalEpisodes] = useState<IEpisodeUnwatched[]>([]);
-
-  useEffect(() => {
-    void mainEpisodes.loadingDataOnPhone();
-  }, []);
-
-  useEffect(() => {
-    setCanonicalEpisodes(mainEpisodes.listAllCanonical());
-  }, []);
-
-  const goToEpisode = (episode: IEpisodeUnwatched) => {
+  const goToEpisode = (episode: IEpisodeCompleteType) => {
     navigation.dispatch(CommonActions.navigate({ name: 'Episode', params: { ...episode } }));
   };
 
   const propsTemplate: ITemplateHomeProps = {
-    searchValue: searchText,
-    onChange: (value) => setSearchText(value),
-    allEpisodes: canonicalEpisodes,
+    onSearch: searchEpisode,
+    allEpisodes: episodes,
+    nextEpisodes,
     onChooseEpisode: goToEpisode,
   };
 

@@ -1,7 +1,7 @@
-import { type IArcType, type IEpisodeType, type IEpisodeUnwatched } from '../type';
+import { type IArcType, type IEpisodeType, type IEpisodeCompleteType } from '../type';
 
 export class ListEpisodesUnwatchedService {
-  listAllCanonical(list: IEpisodeType[], arcs: IArcType[]): IEpisodeUnwatched[] {
+  listAllCanonical(list: IEpisodeType[], arcs: IArcType[]): IEpisodeCompleteType[] {
     const episodesList = [];
 
     for (const arc of arcs) {
@@ -9,12 +9,11 @@ export class ListEpisodesUnwatchedService {
       for (let i = episodes[0]; i <= episodes[episodes.length - 1]; i++) {
         episodesList.push({
           ...list[i],
+          title: `${list[i].number} - ${list[i].title}`,
           image,
         });
       }
     }
-
-    // depois filtrar com quem nao foi assistido por agora vou só mostrar todos os canonicos
 
     return episodesList;
   }

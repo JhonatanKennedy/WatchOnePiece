@@ -9,7 +9,6 @@ const { episode } = texts;
 
 export type ITemplateEpisodeProps = {
   title: string;
-  number: string;
   videoInfo: IVideoPlayerProps;
   onPreviously: () => void;
   onNext: () => void;
@@ -19,7 +18,7 @@ export const TemplateEpisode = (props: ITemplateEpisodeProps) => {
   const videoInfo = props.videoInfo;
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.titleLabel}>{`${props.number} - ${props.title}`}</Text>
+      <Text style={styles.titleLabel}>{props.title}</Text>
       <View style={styles.videoContainer}>
         <VideoPlayer url={videoInfo.url} volume={videoInfo.volume} />
       </View>
