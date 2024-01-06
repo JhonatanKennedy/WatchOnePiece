@@ -1,6 +1,6 @@
 import { MainEpisodes } from '@domain/episodes/main';
 import { type IEpisodeCompleteType } from '@domain/episodes/type';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 type IGlobalContextType = {
   watchedEpisodes: number[];
@@ -44,7 +44,8 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
     }
   };
 
-  const getWatchedEpisodes = async () => {
+  const getWatchedEpisodes = useCallback(async () => {
+    // adcionar loading depois
     const watchedEpisodes = await mainEpisodes.getWatchedEpisodes();
     if (watchedEpisodes.length !== 0) {
       const lastWatchedEpisode = watchedEpisodes[watchedEpisodes.length - 1];
@@ -52,14 +53,17 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
     }
     setNextEpisodes(episodes.slice(0, 5));
     setWatchedEpisodes(watchedEpisodes);
-  };
+  }, [episodes]);
 
   useEffect(() => {
     void mainEpisodes.loadingDataOnPhone();
     mainEpisodes.listAllCanonical();
     setEpisodes(mainEpisodes.episodes);
-    void getWatchedEpisodes();
   }, []);
+
+  useEffect(() => {
+    void getWatchedEpisodes();
+  }, [getWatchedEpisodes]);
 
   return (
     <GlobalContext.Provider
