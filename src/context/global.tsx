@@ -45,9 +45,7 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
   };
 
   const getWatchedEpisodes = async () => {
-    console.log('ta entrando?');
     const watchedEpisodes = await mainEpisodes.getWatchedEpisodes();
-    console.log(watchedEpisodes);
     if (watchedEpisodes.length !== 0) {
       const lastWatchedEpisode = watchedEpisodes[watchedEpisodes.length - 1];
       setNextEpisodes(episodes.slice(lastWatchedEpisode, lastWatchedEpisode + 5));
