@@ -28,8 +28,10 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
       return;
     }
 
-    if (!Number.isNaN(value)) {
-      const episodeNumbered = episodes.find((episode) => episode.number === value);
+    const mayBeNumber = parseInt(value);
+
+    if (!Number.isNaN(mayBeNumber)) {
+      const episodeNumbered = episodes.find((episode) => parseInt(episode.number) === mayBeNumber);
       if (episodeNumbered) {
         setEpisodes([episodeNumbered]);
         return;
@@ -39,9 +41,7 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
     }
 
     const regex = new RegExp(value, 'i');
-    if (episodes.length !== 0) {
-      setEpisodes(episodes.filter((episode: IEpisodeCompleteType) => regex.test(episode.title)));
-    }
+    setEpisodes(episodes.filter((episode: IEpisodeCompleteType) => regex.test(episode.title)));
   };
 
   const getWatchedEpisodes = useCallback(async () => {
@@ -49,11 +49,11 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
     const watchedList = await mainEpisodes.getWatchedEpisodes();
     if (watchedList.length !== 0) {
       const lastWatchedEpisode = watchedList[watchedList.length - 1];
-      setNextEpisodes(episodes.slice(lastWatchedEpisode + 1, lastWatchedEpisode + 5));
+      setNextEpisodes(mainEpisodes.episodes.slice(lastWatchedEpisode + 1, lastWatchedEpisode + 5));
       setWatchedEpisodes(watchedEpisodes);
       return;
     }
-    setNextEpisodes(episodes.slice(0, 5));
+    setNextEpisodes(mainEpisodes.episodes.slice(0, 5));
     setWatchedEpisodes(watchedEpisodes);
   }, [episodes, watchedEpisodes]);
 
