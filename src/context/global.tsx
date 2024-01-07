@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 
 type IGlobalContextType = {
   watchedEpisodes: number[];
-  addWatchedEpisode: () => void;
+  addWatchedEpisode: (episodeIndex: number) => Promise<void>;
   episodes: IEpisodeCompleteType[];
   searchEpisode: (value: string) => void;
   nextEpisodes: IEpisodeCompleteType[];
@@ -21,10 +21,6 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
   const [watchedEpisodes, setWatchedEpisodes] = useState<number[]>([]);
   const [nextEpisodes, setNextEpisodes] = useState<IEpisodeCompleteType[]>([]);
   const [mainEpisodes] = useState(new MainEpisodes());
-
-  const addWatchedEpisode = () => {
-    return null;
-  };
 
   const searchEpisode = (value: string) => {
     if (value.length < 3) {
@@ -46,14 +42,22 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
 
   const getWatchedEpisodes = useCallback(async () => {
     // adcionar loading depois
-    const watchedEpisodes = await mainEpisodes.getWatchedEpisodes();
-    if (watchedEpisodes.length !== 0) {
-      const lastWatchedEpisode = watchedEpisodes[watchedEpisodes.length - 1];
-      setNextEpisodes(episodes.slice(lastWatchedEpisode, lastWatchedEpisode + 5));
+    const watchedList = await mainEpisodes.getWatchedEpisodes();
+    if (watchedList.length !== 0) {
+      const lastWatchedEpisode = watchedList[watchedList.length - 1];
+      setNextEpisodes(episodes.slice(lastWatchedEpisode + 1, lastWatchedEpisode + 5));
+      setWatchedEpisodes(watchedEpisodes);
+      return;
     }
     setNextEpisodes(episodes.slice(0, 5));
     setWatchedEpisodes(watchedEpisodes);
-  }, [episodes]);
+  }, [episodes, watchedEpisodes]);
+
+  const addWatchedEpisode = async (episodeIndex: number) => {
+    const newListWatched = [...watchedEpisodes, episodeIndex];
+    setWatchedEpisodes(newListWatched);
+    await mainEpisodes.setWatchedEpisode(newListWatched);
+  };
 
   useEffect(() => {
     void mainEpisodes.loadingDataOnPhone();
@@ -67,7 +71,13 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
 
   return (
     <GlobalContext.Provider
-      value={{ addWatchedEpisode, episodes, searchEpisode, watchedEpisodes, nextEpisodes }}
+      value={{
+        episodes,
+        searchEpisode,
+        watchedEpisodes,
+        nextEpisodes,
+        addWatchedEpisode,
+      }}
     >
       {children}
     </GlobalContext.Provider>

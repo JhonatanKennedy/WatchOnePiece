@@ -16,14 +16,16 @@ export const Episode = () => {
   const {
     params: { number, title, uri },
   } = useRoute<RouteProp<ParamList, 'Detail'>>();
-  const { episodes } = useGlobalContext();
+  const { episodes, addWatchedEpisode } = useGlobalContext();
   const navigation = useNavigation();
 
   const handleFlow = (flow: FlowType) => {
     let nextEpisode;
 
     if (flow === FlowType.NEXT) {
-      nextEpisode = episodes[parseInt(number)];
+      const currentEpisode = parseInt(number) - 1;
+      nextEpisode = episodes[currentEpisode + 1];
+      void addWatchedEpisode(currentEpisode);
     }
 
     if (flow === FlowType.PREVIOUSLY) {

@@ -26,4 +26,8 @@ export class MainEpisodes {
     }
     return response;
   }
+
+  async setWatchedEpisode(watchedList: number[]) {
+    await this.repository.setWatchedEpisode(watchedList);
+  }
 }

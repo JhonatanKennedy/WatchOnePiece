@@ -34,6 +34,18 @@ export class Repository {
   }
 
   async resetAllEpisodes(): Promise<void> {
-    await this.AsyncStorage.setItem('episodes', JSON.stringify([]));
+    try {
+      await this.AsyncStorage.setItem('episodes', JSON.stringify([]));
+    } catch (err) {
+      console.error('Erro ao settar os dados:', err);
+    }
+  }
+
+  async setWatchedEpisode(newWatchedList: number[]): Promise<void> {
+    try {
+      await this.AsyncStorage.setItem('episodes', JSON.stringify(newWatchedList));
+    } catch (err) {
+      console.error('Erro ao settar os dados:', err);
+    }
   }
 }
