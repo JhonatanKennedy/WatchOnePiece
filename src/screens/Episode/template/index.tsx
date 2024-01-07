@@ -9,6 +9,7 @@ const { episode } = texts;
 
 export type ITemplateEpisodeProps = {
   title: string;
+  indexEpisode: number;
   videoInfo: IVideoPlayerProps;
   onPreviously: () => void;
   onNext: () => void;
@@ -23,7 +24,9 @@ export const TemplateEpisode = (props: ITemplateEpisodeProps) => {
         <VideoPlayer url={videoInfo.url} volume={videoInfo.volume} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button onPress={props.onPreviously}>{episode.previouslyButton}</Button>
+        <Button onPress={props.onPreviously} disabled={props.indexEpisode === 0}>
+          {episode.previouslyButton}
+        </Button>
         <Button onPress={props.onNext}>{episode.nextButton}</Button>
       </View>
     </SafeAreaView>

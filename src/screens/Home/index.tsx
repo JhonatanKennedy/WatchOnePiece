@@ -21,11 +21,6 @@ export const Home = () => {
   return <TemplateHome {...propsTemplate} />;
 };
 
-// vai começar com o ultimo assistido
-// vai ter um scroll pro lado dos ultimos assistido
-// vai ter busca
 // vai ter pagina de progresso junto com os arcos
 // tentar salvar onde o video parou
-// pagina para o episodio vai ter próximo e anterior
-// próximo e anterior de acordo com filers ou nao
 // fazer funções para separar os arcos

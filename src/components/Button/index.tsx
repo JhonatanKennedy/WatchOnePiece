@@ -12,11 +12,16 @@ export type IButtonProps = {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   onPress?: (e: GestureResponderEvent) => void;
+  disabled?: boolean;
 };
 
 export const Button = (props: IButtonProps) => {
   return (
-    <ButtonPaper onPress={props.onPress} style={[styles.button, props.style]}>
+    <ButtonPaper
+      onPress={props.onPress}
+      style={[styles.button, props.style]}
+      disabled={props.disabled}
+    >
       {props.children}
     </ButtonPaper>
   );
