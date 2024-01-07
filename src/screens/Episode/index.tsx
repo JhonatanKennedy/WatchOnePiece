@@ -18,28 +18,32 @@ export const Episode = () => {
   } = useRoute<RouteProp<ParamList, 'Detail'>>();
   const { episodes, addWatchedEpisode } = useGlobalContext();
   const navigation = useNavigation();
+  const currentEpisode = parseInt(number) - 1;
 
   const handleFlow = (flow: FlowType) => {
     let nextEpisode;
 
     if (flow === FlowType.NEXT) {
-      const currentEpisode = parseInt(number) - 1;
       nextEpisode = episodes[currentEpisode + 1];
-      void addWatchedEpisode(currentEpisode);
     }
 
     if (flow === FlowType.PREVIOUSLY) {
-      nextEpisode = episodes[parseInt(number) - 2];
+      nextEpisode = episodes[currentEpisode - 1];
     }
     navigation.dispatch(CommonActions.navigate({ name: 'Episode', params: { ...nextEpisode } }));
   };
 
+  const episodeIsFinished = () => {
+    void addWatchedEpisode(currentEpisode);
+  };
+
   const props: ITemplateEpisodeProps = {
     title,
-    indexEpisode: parseInt(number) - 1,
+    indexEpisode: currentEpisode,
     videoInfo: {
       url: uri,
       volume: 0.5,
+      episodeIsFinished,
     },
     onPreviously: () => handleFlow(FlowType.PREVIOUSLY),
     onNext: () => handleFlow(FlowType.NEXT),

@@ -54,7 +54,11 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
   }, [episodes, watchedEpisodes]);
 
   const addWatchedEpisode = async (episodeIndex: number) => {
-    const newListWatched = [...watchedEpisodes, episodeIndex];
+    if (watchedEpisodes.includes(episodeIndex)) {
+      return;
+    }
+    const newListWatched = [...watchedEpisodes, episodeIndex].sort((a, b) => a - b);
+    console.log(watchedEpisodes, newListWatched);
     setWatchedEpisodes(newListWatched);
     await mainEpisodes.setWatchedEpisode(newListWatched);
   };

@@ -68,6 +68,7 @@ export const BottomNavigation = (): JSX.Element => {
           headerTitle: '',
           headerLeft: () => <GoBackButton onPress={() => navigator.goBack()} />,
           tabBarButton: () => null,
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

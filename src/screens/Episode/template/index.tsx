@@ -21,7 +21,7 @@ export const TemplateEpisode = (props: ITemplateEpisodeProps) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleLabel}>{props.title}</Text>
       <View style={styles.videoContainer}>
-        <VideoPlayer url={videoInfo.url} volume={videoInfo.volume} />
+        <VideoPlayer {...videoInfo} />
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={props.onPreviously} disabled={props.indexEpisode === 0}>

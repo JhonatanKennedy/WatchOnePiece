@@ -30,4 +30,8 @@ export class MainEpisodes {
   async setWatchedEpisode(watchedList: number[]) {
     await this.repository.setWatchedEpisode(watchedList);
   }
+
+  async resetWatchedEpisodes() {
+    await this.repository.resetAllEpisodes();
+  }
 }
