@@ -28,13 +28,17 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
       return;
     }
 
-    const regex = new RegExp(value, 'i');
-
     if (!Number.isNaN(value)) {
-      setEpisodes([episodes[parseInt(value) - 1]]);
+      const episodeNumbered = episodes.find((episode) => episode.number === value);
+      if (episodeNumbered) {
+        setEpisodes([episodeNumbered]);
+        return;
+      }
+      setEpisodes([]);
       return;
     }
 
+    const regex = new RegExp(value, 'i');
     if (episodes.length !== 0) {
       setEpisodes(episodes.filter((episode: IEpisodeCompleteType) => regex.test(episode.title)));
     }
@@ -57,8 +61,8 @@ const GlobalContextProvider = ({ children }: IGlobalContextProviderProps) => {
     if (watchedEpisodes.includes(episodeIndex)) {
       return;
     }
+
     const newListWatched = [...watchedEpisodes, episodeIndex].sort((a, b) => a - b);
-    console.log(watchedEpisodes, newListWatched);
     setWatchedEpisodes(newListWatched);
     await mainEpisodes.setWatchedEpisode(newListWatched);
   };
